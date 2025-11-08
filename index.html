@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -420,7 +421,7 @@
     f.style.bottom = '-30px';
     f.style.opacity = (0.6 + Math.random()*0.4).toFixed(2);
     const dur = 6 + Math.random()*6;
-    f.style.animation = floatUp ${dur}s linear forwards;
+    f.style.animation = `floatUp ${dur}s linear forwards`;
     wrap.appendChild(f);
     setTimeout(()=>{ f.remove() }, (dur+0.2)*1000);
   }
