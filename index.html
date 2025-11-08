@@ -36,9 +36,9 @@
     /* Intro overlay */
     .intro{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.9), rgba(2,6,23,0.95));z-index:60;backdrop-filter:blur(4px)}
     .intro-card{width:92%;max-width:540px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:26px;border-radius:12px;text-align:center}
-    .intro h1{margin:0;font-size:22px;color:var(--soft);letter-spacing:0.6px;opacity:0;animation:fadeIn 1s ease forwards;animation-delay:3.2s}
-    .intro p{margin:12px 0 18px;color:#cfe7ff;opacity:0;animation:fadeIn 1s ease forwards;animation-delay:3.3s}
-    .btn{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#6fb0ea);color:#042032;font-weight:700;text-decoration:none;cursor:pointer;border:none;opacity:0;animation:fadeIn 1s ease forwards;animation-delay:3.4s}
+    .intro h1{margin:0;font-size:22px;color:var(--soft);letter-spacing:0.6px}
+    .intro p{margin:12px 0 18px;color:#cfe7ff}
+    .btn{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#6fb0ea);color:#042032;font-weight:700;text-decoration:none;cursor:pointer;border:none}
 
     /* Header */
     .header{display:flex;align-items:center;gap:16px}
@@ -70,9 +70,15 @@
       padding:6px 10px;border-radius:8px;
     }
 
-    /* fade-in animation */
-    .fade {opacity:0;transform:translateY(6px);animation:fadeIn 0.8s ease forwards;}
-    @keyframes fadeIn {to {opacity:1;transform:translateY(0);}}
+    /* fade-in animation for letters */
+    .fade {
+      opacity:0;
+      transform: translateY(6px);
+      animation: fadeIn 0.8s ease forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity:1; transform: translateY(0); }
+    }
 
     /* Navigation */
     .nav{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
@@ -84,84 +90,363 @@
       .title{font-size:20px}
       .letter{min-height:200px}
     }
-    .letter p {margin:8px 0;line-height:1.45;color:#eaf6ff;white-space:pre-wrap;}
-    .letter .small {color:#cfe7ff;font-size:14px;}
 
-    /* --- 💞 Boy & Girl Animation --- */
-    .animation-container {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-    }
-    .boy, .girl {
-      width: 70px; height: 140px;
-      border-radius: 30px;
-      position: absolute;
-      bottom: 0;
-      animation-timing-function: ease-in-out;
-    }
-    .boy {left: -100px;background: linear-gradient(to top,#87aef5,#b9cfff);animation: boyRun 3s forwards;}
-    .girl {right: -100px;background: linear-gradient(to top,#f9a3c7,#ffd1e3);animation: girlRun 3s forwards;}
-    .heart {
-      position: absolute;
-      top: 50%;
-      width: 30px; height: 30px;
-      background-color: pink;
-      transform: rotate(45deg);
-      opacity: 0;
-      animation: heartPop 3s forwards;
-    }
-    .heart::before,.heart::after {
-      content:'';position:absolute;width:30px;height:30px;background-color:pink;border-radius:50%;
-    }
-    .heart::before {top:-15px;left:0;}
-    .heart::after {left:-15px;top:0;}
-    @keyframes boyRun {
-      0%{left:-100px;}
-      70%{left:calc(50% - 90px);}
-      100%{left:calc(50% - 80px);}
-    }
-    @keyframes girlRun {
-      0%{right:-100px;}
-      70%{right:calc(50% - 90px);}
-      100%{right:calc(50% - 80px);}
-    }
-    @keyframes heartPop {
-      0%,70%{opacity:0;transform:scale(0) rotate(45deg);}
-      80%{opacity:1;transform:scale(1.2) rotate(45deg);}
-      100%{opacity:1;transform:scale(1) rotate(45deg);top:30%;}
-    }
+    /* nicer paragraph spacing */
+    .letter p { margin: 8px 0; line-height:1.45; color: #eaf6ff; white-space: pre-wrap; }
+    .letter .small { color: #cfe7ff; font-size:14px; }
   </style>
 </head>
 <body>
 <div class="app">
   <div class="card" id="appCard">
-    <!-- your whole content unchanged -->
-    ... (your pages here exactly same)
+    <div class="sky">
+      <div class="moon"></div>
+      <div class="star" style="left:10%;top:10%;width:4px;height:4px;opacity:0.9"></div>
+      <div class="star" style="left:25%;top:22%;width:5px;height:5px;opacity:0.85"></div>
+      <div class="star" style="left:50%;top:6%;width:6px;height:6px;opacity:0.9"></div>
+      <div class="star" style="left:70%;top:18%;width:4px;height:4px;opacity:0.85"></div>
+    </div>
+
+    <div class="float-wrap" id="floatWrap" aria-hidden="true"></div>
+
+    <div class="content" id="content">
+      <div class="header">
+        <div>
+          <h1 class="title glow-title">Happy birthday my love, my Haroon</h1>
+          <div class="subtitle" style="margin-top:6px;color:#ffdfe9">Under the moon and stars — a little journey of letters from me to you</div>
+        </div>
+      </div>
+
+      <h2 class="card-title">Start the journey</h2>
+      <p class="lead">Tap below to open the letters — one for each special day up to <strong>9th November</strong>.</p>
+
+      <div id="pagesHolder">
+        <!-- Intro / Home -->
+        <section class="page" data-page="0">
+          <div class="letter">
+            <h3 style="margin-top:0" class="day-title">Welcome</h3>
+            <p class="placeholder">A small collection of letters for you — one each day from Day 1 until your birthday. Click "Read the letters" to begin.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+              <button class="btn primary" onclick="goTo(1)">Read the letters</button>
+              <button class="btn" onclick="openIntro()">View Intro</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Day 1 -->
+        <section class="page" data-page="1" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 1</h3>
+            <div class="fade">
+              <p>Nov 1st</p>
+
+              <p>Take a seat coz you're about to get served 🤭</p>
+
+              <p>Can you believe it, it's been almost 2 years since we've been together. For the fact that we've met so randomly online, your essence has somehow managed to fill my heart with warmth and love for you. All your amazing qualities that I adore to its finest and your pretty face that makes me wanna have you even more🤭
+               For your bday month, here I am writing you letters till your birthday each one crafted with love and admiration. For i wish there was more that I could do but I hope this letter finds you with love because you are the most beautiful soul that I've known, the perfect man that I can wish for, for you are my baby my coco and you deserve all the beautiful things in life (like me🎀hehe) 
+              And a gentle reminder that you are all mine and I am so blessed and grateful to have a man like you my Haroon&lt;3</p>
+            </div>
+
+            <div class="nav"><button onclick="goTo(0)">Previous</button><button onclick="goTo(2)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 2 -->
+        <section class="page" data-page="2" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 2</h3>
+            <div class="fade">
+              <p>Nov 2nd</p>
+
+              <p>If you were here right now with me, I would make sure that you my love shall enjoy your birthday month to its finest-
+              Lots of yummyy treats waiting for you each day full of surprises and goodies and ofc with a hint of nast smex (saving the steamy and the nastiest one for your bday night)🤭
+              I'm sorry for the days when I might act a lil ghanda🥺 like today (I'm writing to you with no internet and I just left you on seen 😀 my hotspot got disconnected)
+              It's just the shitty circumstances but to let you know that there's a lot of yummy days waiting for us, and when were together we shall enjoy to it's finest, together we shall have the best time and forget about the ghanda world and each passing day our bond grows stronger because afterall WE'RE MEANT TO BE✨</p>
+            </div>
+            <div class="nav"><button onclick="goTo(1)">Previous</button><button onclick="goTo(3)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 3 -->
+        <section class="page" data-page="3" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 3</h3>
+            <div class="fade">
+              <p>Nov 3rd</p>
+
+              <p>There’s this one song (anything) you dedicated to us (our song 🤭) — and every time I hear it, it reminds me of you</p>
+
+              <p>“I don't wanna talk about anything, I just wanna kiss your eyes again.”</p>
+
+              <p>Those lines hit me differently every single time. It’s exactly how it feels with you — I don’t need words, I don’t need anything else. Just your presence. Just the quiet comfort that comes with you</p>
+
+              <p> “I wanna sleep in your car while you’re drivin’, lay in your lap when I’m cryin’,” I picture us in that moment — safe, unhurried, and completely ourselves. It’s such a simple image, but it holds everything I want with you: peace, warmth, and a kind of love that doesn’t need to be loud to be real.</p>
+
+              <p>I love how this song became ours. It’s like a secret language between us — no matter where we are, when it plays, it’s you I think of first.</p>
+
+              <p>So today’s letter is short, but it’s full — because this song already says everything I’d ever want to tell you: I don’t want to talk about anything else, anyone else. Just you. Always you.
+              AND AND AND
+              the letter me sent you on your last bday IT NOMORE APPLICABLE becos you're not going anywhere, you are trapped and shall be caged between my thighs 😈</p>
+            </div>
+            <div class="nav"><button onclick="goTo(2)">Previous</button><button onclick="goTo(4)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 4 -->
+        <section class="page" data-page="4" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 4</h3>
+            <div class="fade">
+              <p>Nov 4th</p>
+
+              <p>On your birthday, I just want to pour my heart into words and wish you all the goodness this world can offer — and more.
+              I wish you achieve everything you’ve ever dreamt of — the silent goals, the unspoken hopes, and even the wildest dreams that live quietly inside your heart.</p>
+
+              <p>I wish you win all the battles you never talk about — the ones that live behind your calm eyes, the ones no one sees but you fight every single day with strength and grace.</p>
+
+              <p>And when life feels heavy, when the world grows quiet and cold, I pray that Allah makes your path easier — that He fills your heart with peace and your days with light.
+              Because even in your lows, you carry a kind of dignity that never fades.</p>
+
+              <p>I wish your soul finds everything — and everyone — that it truly deserves.
+              May Allah fill your life with mercy, with joy, with love so pure that it never leaves.</p>
+
+              <p>The soul you bring to this world — it sings.
+              It hums softly through the people you touch, through the love you give, through every moment you turn into something beautiful.</p>
+
+              <p>And I’ll be right here — always — watching you grow, loving you through every season, proud beyond words to call you mine.</p>
+
+              <p>(I've added this in our previous letter and I add this again)
+              And if we ever lose contact then find me in the rain, the one that are the most unexpected rains.
+              Remember me when you feel the raindrops on your skin.
+              We might lose contact but not the connection through that invisible string that connects us.</p>
+            </div>
+            <div class="nav"><button onclick="goTo(3)">Previous</button><button onclick="goTo(5)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 5 -->
+        <section class="page" data-page="5" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 5</h3>
+            <div class="fade">
+              <p>Nov 5th</p>
+
+              <p>Day 5 – Things I Love About You (everything, duh)</p>
+
+              <p>first and foremost☝️You itsh me handsome baby💋, the most enchanting, charming, CHARISMATIC which me adore the most, intelligent, kind, caring, thoughtful, brilliant, gentle, passionate, freaky (we both freaky and itsh perfect 🤭), loyal, loving, trustworthy, attractive, sweet, perfect, breathtaking FLAWLESS man EVER
+              WELL me no care what you say but me love me baby and me adore him lots and lots</p>
+
+              <p>Btw if you remember you asked me what I was looking at my notepad, it wasn't those recipes- itsh just me writing you letters each day until your birthday hehe, I really hope you like it haha coz this is all I can do for now, tho I wish there was more I could do
+              So a short and quick letter for today before me mom snatches me phone 🤭💋
+              Xoxo</p>
+            </div>
+            <div class="nav"><button onclick="goTo(4)">Previous</button><button onclick="goTo(6)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 6 -->
+        <section class="page" data-page="6" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 6</h3>
+            <div class="fade">
+              <p>Nov 6th</p>
+
+              <p>(The coffee I had is doing its job🤭)
+              So here's a poem for you my love</p>
+
+              <p>You move through me like moonlight over water—
+              slow, silver, sure.
+              Even the sea hushes when your calm arrives,
+              as if it knows gentleness can still be power.</p>
+
+              <p>Your warmth is a tide I never resist,
+              pulling me softly, completely,
+              until I forget where the ocean ends
+              and where your touch begins.</p>
+
+              <p>There’s a quiet fire in you,
+              something both wild and serene—
+              like waves kissing the shore
+              while the moon blushes above them.</p>
+
+              <p>You are the stillness after storms,
+              the rhythm beneath every silence,
+              and every time you breathe,
+              the world around me softens</p>
+            </div>
+            <div class="nav"><button onclick="goTo(5)">Previous</button><button onclick="goTo(7)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 7 -->
+        <section class="page" data-page="7" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 7</h3>
+            <div class="fade">
+              <p>Nov 7th</p>
+
+              <p>HAROON LIKES KITTY
+              (See me write it down on me website TEHEE)</p>
+
+              <p>WOULD YOU STILL LOVE ME IF I WAS A WORM 😠
+              That's what me asked you
+              "i want human me no like worm"
+              THAT'S WHAT YOU SAID😤</p>
+
+              <p>WHAT IF I WAS A CAT
+              "If you're a cat me make lovely place for you"
+              (AS YOU SHOULD)
+              🤭</p>
+
+              <p>Haha aren't you my most yummiest baby ever,
+              Chu was sad today and me sowriee that I couldn't send time with you but HEY me make this website for you and me hope you like it because me donno what else to do🥺
+              Me just think if something creative and me was like HEY LETS MAKE A WEBSITE for my babyy
+              So he can click on this link and he'll have a yummy place to see all the yummy letters me made for him&lt;3</p>
+
+              <p>"there is beauty in suffering"
+              (how dramatic)
+              Well here's something for you to make it sound more beautifully dramatic</p>
+
+              <p>In silent grief, your soul takes flight,
+              Finding grace within the night.
+              For every tear the heart has known,
+              Carves the depth where love has grown.
+              (Little did you know that it nkt just a smol part that is dedicated for you BUT a whole website 💋)</p>
+            </div>
+            <div class="nav"><button onclick="goTo(6)">Previous</button><button onclick="goTo(8)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 8 -->
+        <section class="page" data-page="8" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 8</h3>
+            <div class="fade">
+              <p>Nov 8th</p>
+
+              <p>My dear Haroon,
+              My dearest love,</p>
+
+              <p>Today, the world quietly celebrates the day you came into it — 27 years of life, growth, and grace. And while the number changes, what truly matters is how beautifully you’ve evolved with every passing year.</p>
+
+              <p>Growing older isn’t losing time, my love — it’s gaining light. It’s the proof of how far you’ve walked through storms, how bravely you’ve stood when life tested your heart. Every scar, every smile, every sleepless night has shaped the man I so deeply admire today.</p>
+
+              <p>Your soul has grown softer yet stronger, your eyes hold stories of resilience, and your heart — oh, your heart — it beats with the kind of warmth that makes me believe in love, in fate, in us.</p>
+
+              <p>You deserve every good thing this world can offer… and yes, you deserve me too — to love you, care for you, and stand beside you through every rise and fall. I’ll always be your constant, your calm after chaos, your hand to hold when the world feels heavy.</p>
+
+              <p>You are not just my man — you’re my best friend, my peace, my forever. There’s an invisible string between us, woven by something far greater than chance, and I know deep within my soul — it will never break.</p>
+
+              <p>Happy 27th birthday, my love.</p>
+            </div>
+            <div class="nav"><button onclick="goTo(7)">Previous</button><button onclick="goTo(9)" class="primary">Next</button></div>
+          </div>
+        </section>
+
+        <!-- Day 9 -->
+        <section class="page" data-page="9" style="display:none">
+          <div class="letter">
+            <h3 class="day-title">Day 9</h3>
+            <div class="fade">
+              <p>Nov 9th</p>
+
+              <p>Happy Birthday, my favorite person.
+              I wish I could be there to hug you, but even from here, I hope you feel how much I love you. You deserve every good thing this world has to offer, hope these letters brings you a smile to your pretty face;)</p>
+
+              <p style="margin-top:12px">-on your birthday</p>
+
+              <blockquote style="margin:12px 0 0 0;padding-left:12px;border-left:3px solid rgba(255,143,185,0.18);color:#ffdfe9">
+                “From the 1st of November till now, every letter carried a piece of my heart — and today, it’s all yours. Happy Birthday 💖
+              </blockquote>
+
+              <p style="margin-top:12px;text-align:right;font-weight:700">Yours one and only<br>Fatima</p>
+            </div>
+            <div class="nav"><button onclick="goTo(8)">Previous</button><button onclick="goTo(0)" class="primary">Back to Home</button></div>
+          </div>
+        </section>
+
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- Intro overlay -->
 <div class="intro" id="intro" style="display:none">
   <div class="intro-card">
-    <div class="animation-container">
-      <div class="boy"></div>
-      <div class="girl"></div>
-      <div class="heart"></div>
-    </div>
     <h1 class="glow-title">Happy birthday my love, my Haroon</h1>
     <p>Under the moon and stars — a little journey of letters from me to you. Tap to enter our little world ✨</p>
     <button class="btn" onclick="closeIntro()">Enter</button>
   </div>
 </div>
 
-<!-- your same JS -->
 <script>
-  /* everything from your script stays exactly as before */
+  // page navigation
+  const pages = Array.from(document.querySelectorAll('.page'));
+  function showPage(n){
+    pages.forEach(s=>s.style.display='none');
+    const p = pages.find(x=>Number(x.dataset.page)===n);
+    if(p) p.style.display='block';
+    // restart fade animation by reflow
+    const fadeEls = p ? p.querySelectorAll('.fade') : [];
+    fadeEls.forEach(el=>{
+      el.style.animation = 'none';
+      // force reflow
+      void el.offsetWidth;
+      el.style.animation = '';
+      el.classList.remove('fade');
+      void el.offsetWidth;
+      el.classList.add('fade');
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function goTo(n){ showPage(n) }
+  function next(i){ if(i<9) goTo(i+1); else if(i===9) goTo(0) }
+  function prev(i){ if(i>1) goTo(i-1); else goTo(0) }
+  showPage(0);
+
+  // intro handling
+  function openIntro(){ document.getElementById('intro').style.display='flex' }
+  function closeIntro(){ document.getElementById('intro').style.display='none' }
+
+  // floating hearts generator
+  const wrap = document.getElementById('floatWrap');
+  function makeFloat(){
+    const f = document.createElement('div');
+    const size = Math.random()*22+10;
+    f.className = 'float heart';
+    f.style.width = size+'px';
+    f.style.height = size+'px';
+    f.style.left = (Math.random()*92 + 3)+'%';
+    f.style.bottom = '-30px';
+    f.style.opacity = (0.6 + Math.random()*0.4).toFixed(2);
+    const dur = 6 + Math.random()*6;
+    f.style.animation = floatUp ${dur}s linear forwards;
+    wrap.appendChild(f);
+    setTimeout(()=>{ f.remove() }, (dur+0.2)*1000);
+  }
+  setInterval(makeFloat, 800);
+
+  // keyboard nav
+  document.addEventListener('keydown', (e)=>{
+    const cur = pages.find(p=>p.style.display!=='none');
+    if(!cur) return;
+    const idx = Number(cur.dataset.page);
+    if(e.key==='ArrowRight'){
+      if(idx===0) goTo(1);
+      else if(idx>=1 && idx<9) goTo(idx+1);
+      else if(idx===9) goTo(0);
+    }
+    if(e.key==='ArrowLeft'){
+      if(idx>1) goTo(idx-1);
+      else goTo(0);
+    }
+  });
+
+  // show intro once per session
+  if(!sessionStorage.getItem('seenIntro')){
+    document.getElementById('intro').style.display='flex';
+    sessionStorage.setItem('seenIntro','1');
+  }
 </script>
 </body>
 </html>
